@@ -26,11 +26,11 @@ functions{
 data {
   int N;                                 // Sample size
   int MA;                                // Number of age categories
-  int age[N];                            // Age categories
-  int outcome[N];                        // Choice (1 means prosocial)
-  int gender[N];                         // Gender (1 means male, 2 means female)
-  int<lower = 0> P_other[2,MA];          // Population demography from other target population
-  int<lower = 0> P_Pop[2,MA];            // Population demography from population from which sample was taken
+  array[N] int age;                            // Age categories
+  array[N] int outcome;                        // Choice (1 means prosocial)
+  array[N] int gender;                         // Gender (1 means male, 2 means female)
+  array[2, MA] int<lower=0> P_other;          // Population demography from other target population
+  array[2, MA] int<lower=0> P_Pop;            // Population demography from population from which sample was taken
 }
 
 // Define the unobserved variables (parameters) that we estimate from the data
@@ -39,9 +39,9 @@ parameters {
   matrix[2,MA] age_effect;    //Matrix for Gaussian process age effects
 
   //Here we define the Control parameters for the Gaussian processes; they determine how covariance changes with increasing distance in age
-  real<lower=0> eta[2];
-  real<lower=0> sigma[2];
-  real<lower=0, upper=1> rho[2];
+  array[2] real<lower=0> eta;
+  array[2] real<lower=0> sigma;
+  array[2] real<lower=0, upper=1> rho;
 }
 
 model {

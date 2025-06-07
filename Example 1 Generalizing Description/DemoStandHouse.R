@@ -9,7 +9,7 @@ library(rethinking)
 library(plotrix)
 library(scales)
 require(RColorBrewer)
-setwd("~/GitHub/Cross-Cultural-Generalizability")
+#setwd("~/GitHub/Cross-Cultural-Generalizability")
 
 #Population distributions (age and gender) of Vanuatu and Berlin
 Pop_Berlin <- read.csv("data/Berlin-2020.csv")
