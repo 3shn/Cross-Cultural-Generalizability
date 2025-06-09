@@ -2,18 +2,18 @@ data {
   int N;
   int N_pop;
   int MA;
-  int age[N];
-  int pop_id[N];
-  int condition[N];
-  int outcome[N];
-  int gender[N];
-  int Demo[N_pop, MA];
+  array[N] int age;
+  array[N] int pop_id;
+  array[N] int condition;
+  array[N] int outcome;
+  array[N] int gender;
+  array[N_pop, MA] int Demo;
   int Ref;
   }
 
 parameters {
-  real alpha[N_pop];
-  real b_prime[N_pop];
+  array[N_pop] real alpha;
+  array[N_pop] real b_prime;
 }
 
 model {
@@ -28,7 +28,7 @@ model {
 
 generated quantities{
 
-real empirical_p[N_pop];
+array[N_pop] real empirical_p;
  for (h in 1:N_pop){
    empirical_p[h] =  inv_logit(alpha[h]) - inv_logit(alpha[h] + b_prime[h]);
  }

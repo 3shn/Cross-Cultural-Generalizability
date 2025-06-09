@@ -28,26 +28,26 @@ data {
   int N;                     // Number of unique choices/participants
   int N_pop;                 // Number of field sites
   int MA;                    // Maximum age
-  int age[N];                // Age
-  int pop_id[N];             // Numerical field id
-  int condition[N];          // Dummy-coded conditions
-  int outcome[N];            // Choice (1 means prosocial)
-  int gender[N];             // Gender (1 means male, 2 means female)
-  int Demo[N_pop, MA];       // Demography of samples
+  array[N] int age;                // Age
+  array[N] int pop_id;             // Numerical field id
+  array[N] int condition;          // Dummy-coded conditions
+  array[N] int outcome;            // Choice (1 means prosocial)
+  array[N] int gender;             // Gender (1 means male, 2 means female)
+  array[N_pop, MA] int Demo;       // Demography of samples
   int Ref;                   // Reference population for transport
 }
 
 // Define the unobserved variables (parameters) that we estimate from the data
 parameters {
-  real alpha[N_pop];            //Population-specific intercept
-  real b_prime[N_pop];          //Population-specific influence of norm primes on the logit scale
+  array[N_pop] real alpha;            //Population-specific intercept
+  array[N_pop] real b_prime;          //Population-specific influence of norm primes on the logit scale
   matrix[N_pop, MA] age_effect; //Matrix to hold Gaussian process age effects for each population
 
   // Here we define the Control parameters (separately for populations) for the Gaussian processes;
   // they determine how covariance changes with increasing distance in age
-  real<lower=0> eta[N_pop];
-  real<lower=0> sigma[N_pop];
-  real<lower=0, upper=1> rho[N_pop];
+  array[N_pop] real<lower=0> eta;
+  array[N_pop] real<lower=0> sigma;
+  array[N_pop] real<lower=0, upper=1> rho;
 }
 
 model {
@@ -78,7 +78,7 @@ model {
 // Causal effects are defined as differences on the outcome scale (here: choice probabilities), so we first convert to outcome scale and then compute causal contrast
 
 generated quantities{
-real transport_p[N_pop];
+array[N_pop] real transport_p;
  for (h in 1:N_pop){
    real total = 0;
     for ( i in 1:MA){
