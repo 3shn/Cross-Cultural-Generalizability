@@ -1,6 +1,6 @@
 data {
   int N;
-  int outcome[N];
+  array[N] int outcome;
 }
 
 parameters {
